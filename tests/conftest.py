@@ -283,7 +283,12 @@ def serve_in_thread(server: Server):
 
 @pytest.fixture(scope="session")
 def server():
-    config = Config(app=app, lifespan="off", loop="asyncio")
+    config = Config(
+        app=app,
+        lifespan="off",
+        loop="asyncio",
+        port=int(os.getenv("HTTPX_TEST_HTTP_PORT", "8000")),
+    )
     server = TestServer(config=config)
     yield from serve_in_thread(server)
 
@@ -295,7 +300,7 @@ def https_server(cert_pem_file, cert_private_key_file):
         lifespan="off",
         ssl_certfile=cert_pem_file,
         ssl_keyfile=cert_private_key_file,
-        port=8001,
+        port=int(os.getenv("HTTPX_TEST_HTTPS_PORT", "8001")),
         loop="asyncio",
     )
     server = TestServer(config=config)

@@ -104,7 +104,7 @@ async def test_logs_debug(server, capsys):
             response = await client.get(server.url)
             assert response.status_code == 200
     stderr = capsys.readouterr().err
-    assert 'HTTP Request: GET http://127.0.0.1:8000/ "HTTP/1.1 200 OK"' in stderr
+    assert f'HTTP Request: GET {server.url} "HTTP/1.1 200 OK"' in stderr
 
 
 @pytest.mark.asyncio
@@ -114,7 +114,7 @@ async def test_logs_trace(server, capsys):
             response = await client.get(server.url)
             assert response.status_code == 200
     stderr = capsys.readouterr().err
-    assert 'HTTP Request: GET http://127.0.0.1:8000/ "HTTP/1.1 200 OK"' in stderr
+    assert f'HTTP Request: GET {server.url} "HTTP/1.1 200 OK"' in stderr
 
 
 @pytest.mark.asyncio
@@ -127,11 +127,11 @@ async def test_logs_redirect_chain(server, capsys):
     stderr = capsys.readouterr().err.strip()
     redirected_request_line, ok_request_line = stderr.split("\n")
     assert redirected_request_line.endswith(
-        "HTTP Request: GET http://127.0.0.1:8000/redirect_301 "
+        f"HTTP Request: GET {server.url}redirect_301 "
         '"HTTP/1.1 301 Moved Permanently"'
     )
     assert ok_request_line.endswith(
-        'HTTP Request: GET http://127.0.0.1:8000/ "HTTP/1.1 200 OK"'
+        f'HTTP Request: GET {server.url} "HTTP/1.1 200 OK"'
     )
 
 

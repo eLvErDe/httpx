@@ -108,7 +108,7 @@ def test_verbose(server):
     assert result.exit_code == 0
     assert remove_date_header(splitlines(result.output)) == [
         "* Connecting to '127.0.0.1'",
-        "* Connected to '127.0.0.1' on port 8000",
+        f"* Connected to '127.0.0.1' on port {server.url.port}",
         "GET / HTTP/1.1",
         f"Host: {server.url.netloc.decode('ascii')}",
         "Accept: */*",
@@ -133,7 +133,7 @@ def test_auth(server):
     assert result.exit_code == 0
     assert remove_date_header(splitlines(result.output)) == [
         "* Connecting to '127.0.0.1'",
-        "* Connected to '127.0.0.1' on port 8000",
+        f"* Connected to '127.0.0.1' on port {server.url.port}",
         "GET / HTTP/1.1",
         f"Host: {server.url.netloc.decode('ascii')}",
         "Accept: */*",
